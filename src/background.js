@@ -1,14 +1,22 @@
 'use strict'
 
-import { app, protocol, BrowserWindow } from 'electron'
+import { app, protocol, BrowserWindow, ipcMain} from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
+
+const { Product } = require('./poo/product')
+const { Sabelotodo, default: sabelotodo } = require('./poo/sabelotodo')
+
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
 
+
+export default function hellowWorld(){
+  console.log("this is a hello world");
+}
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
@@ -17,12 +25,16 @@ protocol.registerSchemesAsPrivileged([
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1200,
+    height: 900,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
-      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION
+      //nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
+      enableRemoteModule: true,
+      nodeIntegration: true,
+      //nodeIntegrationInWorker:true
+      //preload: __static + '/preload.js'
     }
   })
 
@@ -87,3 +99,28 @@ if (isDevelopment) {
     })
   }
 }
+
+ipcMain.on('registerProduct', async (event, product) => {
+    const newProduct = new Product(product);
+   try {
+     await newProduct.save();
+   } catch (error) {
+     event.returnValue = error;
+   }
+});
+
+ipcMain.on('editProduct', async(event, product) =>{
+     const productEdited = new Product(product);
+     return await productEdited.edit();
+});
+
+ipcMain.handle('indexProduct', async (event, someArgument) => {
+    const product = new Product({});
+    return product.index();
+});
+
+ipcMain.handle('find', async (event, table, id,) => {
+    const sabelotodo = new Sabelotodo(table);
+    return await sabelotodo.find(id);
+});
+

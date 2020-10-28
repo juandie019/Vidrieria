@@ -1,4 +1,4 @@
-# vidrieria
+# Vidrieria
 
 ## Project setup
 ```
