@@ -11,6 +11,7 @@ class Sabelotodo extends Connection{
         try {
             return await (await this.connection).query(`INSERT INTO ${this.table} SET ?`, element);
         } catch (error) {
+            console.log(error)
             throw error;
         }
     }

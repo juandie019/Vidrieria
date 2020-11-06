@@ -11,7 +11,7 @@ class Product extends Sabelotodo{
             this.size = parseInt(product.size);
             this.pieces = parseInt(product.pieces);
             this.color = product.color;
-            this.thickness = product.color;
+            this.thickness = product.thickness;
             this.shape = product.shape;
         //}
     }

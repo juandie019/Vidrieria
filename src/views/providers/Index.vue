@@ -4,16 +4,16 @@
         <b-card-header>
             <b-row>
                 <b-col class= "mt-2">
-                    <b-card-sub-title>Lista de productos</b-card-sub-title>
+                    <b-card-sub-title>Lista de Provedores</b-card-sub-title>
                 </b-col>
                 <b-col class="text-right">
-                    <b-link class="text-right" to="/product_form"><b-icon icon="basket" aria-hidden="flase" class="mr-1"></b-icon>Registrar producto</b-link>     
+                    <b-link class="text-right" to="/provider_form"><b-icon icon="person-plus-fill" aria-hidden="flase" class="mr-1"></b-icon>Registrar Proveedor</b-link>     
                 </b-col>
             </b-row>
         </b-card-header>
         <b-card-body>
             <b-table
-                :items = "products"
+                :items = "providers"
                 :fields = "fields"
                 :sort-by.sync = "sortBy"
                 :sort-desc.sync = "sortDesc"
@@ -41,52 +41,41 @@
             sortDesc: false,
             fields:[
                 {key: 'id', sortable:false, label:'ID'},
-                {key: 'name', sortable:true, label:'Nombre'},
-                {key: 'price', sortable:true, label:'Precio'},
-                {key: 'size', sortable:false, label:'Tamaño'},
-                {key: 'pieces', sortable:false, label:'Piezas'},
-                {key: 'thickness', sortable:false, label:'Grosor'},
-                {key: 'color', sortable:false, label:'Color'},
-                {key: 'shape', sortable:false, label:'Forma'},
+                {key: 'comercialName', sortable:true, label:'Negocio'},
+                {key: 'rfc', sortable:false, label:'RFC'},
+                {key: 'address', sortable:false, label:'Direccion'},
+                {key: 'phone', sortable:false, label:'Telefono'},
+                {key: 'email', sortable:false, label:'email'},
                 {key: 'editar', sortable:false, label:''}
                 ],
-            products:[]
+            providers:[]
         }
     },
-    props:['productName', 'productEdited'], //when redirecting from register/edit, it gets product name to notify
+    props:['providerName', 'providerEdited'], //when redirecting from register/edit, it gets client name to notify
 
     async created(){
-        this.products = await ipcRenderer.invoke('index', 'products')
+        this.providers = await ipcRenderer.invoke('index', 'providers')
     },
 
     mounted(){
-       if(this.productName !== undefined)
+       if(this.providerName !== undefined)
          this.showToast();
     },
 
     methods:{
         showToast() {
-            const action = this.productEdited == 1 ?  'ACTUALIZO' : 'REGISTRO';
+            const action = this.providerEdited == 1 ?  'ACTUALIZO' : 'REGISTRO';
           
-            this.$bvToast.toast(this.productName, {
+            this.$bvToast.toast(this.providerName, {
                 id: 'toast',
                 title: `SE ${action}`,
                 solid: true
             })
         },
         sendToEdit(id){
-           this.$router.push({ name: 'productForm', params: { productId: id } }) 
+           this.$router.push({ name: 'providerForm', params: { providerId: id } }) 
         }
     }
 
 }
 </script>
-
-<style scoped>
-    .text-primary{
-        color:slategrey;
-    }
-    .link{
-        color: springgreen;
-    }
-</style>

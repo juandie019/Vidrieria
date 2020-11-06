@@ -113,18 +113,19 @@ export default {
       evt.preventDefault();
 
       if(!this.editingStatus){
-         error = ipcRenderer.sendSync('registerProduct', this.form)
+         error = ipcRenderer.sendSync('register', 'product', this.form);
         }
       else
-        ipcRenderer.send('editProduct', this.form);
-
+        ipcRenderer.sendSync('edit', 'product', this.form);
+        
       if(error != undefined)
         alert(error);
       else
-        window.location = `/product_index/${this.form.name}/${this.editingStatus ? 1 : 0}` ;
+        this.$router.push({ name: 'productIndex', params: { productName: this.form.id, productEdited: this.editingStatus ? 1 : 0} }) 
+
     },
     async onReset(){
-         await ipcRenderer.send('registrarProducto', this.form);
+        // await ipcRenderer.send('registrarProducto', this.form);
     },
     async productRegister(){
 

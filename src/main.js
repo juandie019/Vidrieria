@@ -11,8 +11,10 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.config.productionTip = false
+Vue.config.devtools = true
 
 new Vue({
+  data:{ employee:'' },
   router,
   render: h => h(App)
 }).$mount('#app')

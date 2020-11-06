@@ -5,7 +5,12 @@ import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 
 const { Product } = require('./poo/product')
-const { Sabelotodo, default: sabelotodo } = require('./poo/sabelotodo')
+const { Client } = require('./poo/client')
+const { Employee } = require('./poo/employee')
+const { Provider } = require('./poo/provider')
+const { Sabelotodo } = require('./poo/sabelotodo')
+const { getObject } = require('./poo/getObject')
+var signedEmployee
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -100,27 +105,39 @@ if (isDevelopment) {
   }
 }
 
-ipcMain.on('registerProduct', async (event, product) => {
-    const newProduct = new Product(product);
-   try {
-     await newProduct.save();
-   } catch (error) {
-     event.returnValue = error;
-   }
+ipcMain.on('updateSignedEmployee', async (event, id) =>{
+  signedEmployee = id;
+  console.log(signedEmployee)
 });
 
-ipcMain.on('editProduct', async(event, product) =>{
-     const productEdited = new Product(product);
-     return await productEdited.edit();
+ //CRUD EVENTS
+ipcMain.on('register', async(event, objectType, data) => {
+  const element = getObject(objectType, data);
+  try {
+    await element.save();
+  } catch (error) {
+    event.returnValue = error;
+  }
+  event.returnValue = undefined // if it doesnt get any error
 });
 
-ipcMain.handle('indexProduct', async (event, someArgument) => {
-    const product = new Product({});
-    return product.index();
+ipcMain.on('edit', async(event, objectType, data) => {
+  const element = getObject(objectType, data);
+  console.log('new Edit')
+  try {
+    await element.edit();
+  } catch (error) {
+    event.returnValue = error;
+  }
+  event.returnValue = undefined // if it doesnt get any error
+});
+
+ipcMain.handle('index', async (event, table) => {
+  const data = new Sabelotodo(table);
+  return data.index();
 });
 
 ipcMain.handle('find', async (event, table, id,) => {
     const sabelotodo = new Sabelotodo(table);
     return await sabelotodo.find(id);
 });
-
