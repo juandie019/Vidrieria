@@ -37,7 +37,7 @@
     export default {
     data(){
         return{
-            sortBy:'name',
+            sortBy:'firstName',
             sortDesc: false,
             fields:[
                 {key: 'id', sortable:false, label:'ID'},

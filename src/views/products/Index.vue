@@ -25,6 +25,7 @@
                     <b-icon icon="pen" aria-hidden="true"></b-icon>
                 </b-button>
             </template>
+            
             </b-table>
         </b-card-body>
     </b-card>
@@ -38,7 +39,7 @@
     data(){
         return{
             sortBy:'name',
-            sortDesc: false,
+            sortDesc: true,
             fields:[
                 {key: 'id', sortable:false, label:'ID'},
                 {key: 'name', sortable:true, label:'Nombre'},

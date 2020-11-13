@@ -121,8 +121,6 @@ export default {
         alert(error);
       else
           this.$router.push({ name: 'clientIndex', params: { clientName: this.clienteNombre, clientEdited:this.editingStatus ? 1 : 0 } }) 
-
-       // window.location = `/client_index/${this.clienteNombre}/${this.editingStatus ? 1 : 0}` ;
     },
     async onReset(){
          await ipcRenderer.send('register', 'client', this.form);
