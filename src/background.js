@@ -4,12 +4,10 @@ import { app, protocol, BrowserWindow, ipcMain} from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 
-const { Product } = require('./poo/product')
-const { Client } = require('./poo/client')
-const { Employee } = require('./poo/employee')
-const { Provider } = require('./poo/provider')
+
 const { Sabelotodo } = require('./poo/sabelotodo')
 const { getObject } = require('./poo/getObject')
+
 var signedEmployee
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -19,9 +17,6 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 let win
 
 
-export default function hellowWorld(){
-  console.log("this is a hello world");
-}
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
@@ -30,7 +25,7 @@ protocol.registerSchemesAsPrivileged([
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 1200,
+    width: 1400,
     height: 900,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
@@ -107,12 +102,18 @@ if (isDevelopment) {
 
 ipcMain.on('updateSignedEmployee', async (event, id) =>{
   signedEmployee = id;
-  console.log(signedEmployee)
 });
+
+export default function getSignedEmployee() {
+   return 1542;
+}
+
 
  //CRUD EVENTS
 ipcMain.on('register', async(event, objectType, data) => {
   const element = getObject(objectType, data);
+
+  console.log(element)
   try {
     await element.save();
   } catch (error) {
@@ -123,7 +124,7 @@ ipcMain.on('register', async(event, objectType, data) => {
 
 ipcMain.on('edit', async(event, objectType, data) => {
   const element = getObject(objectType, data);
-  console.log('new Edit')
+
   try {
     await element.edit();
   } catch (error) {

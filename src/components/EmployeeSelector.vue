@@ -56,8 +56,8 @@ export default {
   methods:{
     changeEmployee(index){
       ipcRenderer.send('updateSignedEmployee', this.employees[index].id);
-
-      this.$root.employee = this.employees[index].name
+      this.$root.employee.id = this.employees[index].id
+      this.$root.employee.name = this.employees[index].name
       this.$refs['my-modal'].hide()
       
       this.$router.push({name:'Home'});

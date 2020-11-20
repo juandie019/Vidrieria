@@ -4,7 +4,7 @@
       <b-card-header>
         <b-row>
           <b-col cols="3">
-            <b-form-select v-model="order.idProvider" :options="providers"></b-form-select>
+            <b-form-input v-model="sale.name" placeholder="Nombre de la nota"></b-form-input>
           </b-col>
           <b-col cols="6" class="ml-auto">
             <product-finder @productFound = "updateProductList">
@@ -13,25 +13,13 @@
         </b-row>
       </b-card-header>
     <b-card-body>
-       <product-list :products = "order.products">
+       <product-list :products = "sale.products">
        </product-list>
     </b-card-body>
     <b-card-footer>
       <b-row>
-        <b-col cols="3">
-          <b-datepicker v-model = "order.createdAt" placeholder="Fecha de orden"
-          :date-format-options="{ year: 'numeric', month: 'short', day: '2-digit', weekday: 'short' }"
-          locale="es">
-          </b-datepicker>
-        </b-col>
-        <b-col cols="3" class="">
-          <b-datepicker v-model = "order.shipingDay" placeholder="Fecha de entrega"
-           :date-format-options="{ year: 'numeric', month: 'short', day: '2-digit', weekday: 'short' }"
-           locale="es">
-          </b-datepicker>
-        </b-col>
-         <b-col cols="2" class="mt-2 mr-auto"  @click="chk">
-             <b-form-checkbox v-model="order.pendingFee" value=1 unchecked-value=0 @click="chk">Se debe</b-form-checkbox>
+        <b-col cols="3" class="mr-auto">
+          <b-form-input v-model="sale.description" placeholder="Descripcion"></b-form-input>
         </b-col>
          <b-button type="submit" @click="saveOrder" variant="primary">Guardar</b-button>
       </b-row>
@@ -48,34 +36,33 @@ import productList from '@/components/productList.vue'
 export default {
   data() {
     return{
-      order:{
+      sale:{
         createdAt:'',
-        shipingDay:'',
-        idProvider: null,
-        pendingFee: 0,
+        name:'',
+        description:'',
         products:[]
       },
-      providers:[],
     }
   },
   components:{productFinder, productList},
 
   async mounted(){
-    this.providers = this.getProvidersForSelect(this.providers = await ipcRenderer.invoke('index', 'providers'))
+    this.sale.idEmployee = this.$root.employee.id
+    console.log('mounted',this.sale)
   },
 
   methods: {
     saveOrder(evt){
       evt.preventDefault();
 
-      var error = ipcRenderer.send('register', 'purchaseOrder', this.order);
+      var error = ipcRenderer.send('register', 'sale', this.sale);
       if(error != undefined)
         alert(error);
-      // else  
-      //   this.$router.push({ name: 'clientIndex', params: { clientName: this.clienteNombre, clientEdited:this.editingStatus ? 1 : 0 } }) 
+       else  
+        this.$router.push({ name: 'saleIndex', params: { saleName: this.sale.name, saleEdited:false} }) 
     },
     updateProductList(product){
-        this.order.products.push(product)
+        this.sale.products.push(product)
     },
 
     getProvidersForSelect(providers){
@@ -87,7 +74,7 @@ export default {
     },
     
     chk(){
-      console.log(this.order.pendingFee)
+      console.log(this.sale.pendingFee)
     }
   },
   computed: {

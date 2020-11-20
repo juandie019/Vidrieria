@@ -14,7 +14,12 @@ Vue.config.productionTip = false
 Vue.config.devtools = true
 
 new Vue({
-  data:{ employee:'' },
+  data:{ 
+    employee:{
+      id:'',
+      name:''
+    }
+   },
   router,
   render: h => h(App)
 }).$mount('#app')

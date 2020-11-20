@@ -3,6 +3,9 @@ const { Client } = require('../poo/client')
 const { Employee } = require('../poo/employee')
 const { Provider } = require('../poo/provider')
 
+
+// creo que se puede hacer un require condicional
+
 getObject = (objectType, object) =>{//this cleans inherited properties for corret database insertion
     switch (objectType) {
         case 'product':
@@ -13,6 +16,12 @@ getObject = (objectType, object) =>{//this cleans inherited properties for corre
             return new Employee(object)
         case 'provider':
             return new Provider(object)
+        case 'purchaseOrder':
+            const { PurchaseOrder } = require('../poo/purchaseOrder')
+            return new PurchaseOrder(object)
+        case 'sale':
+            const { Sale } = require('../poo/sale')
+            return new Sale(object)
         default:
             return 'notFound'
     }

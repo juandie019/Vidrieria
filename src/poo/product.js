@@ -4,6 +4,7 @@ const {getOwnProperties} = require ('./ownProperties')
 class Product extends Sabelotodo{
     constructor(product){
         super("products");
+        console.log(product);
         //if(typeof product != 'undefined'){
             this.id = parseInt(product.id);
             this.name = product.name;
@@ -33,7 +34,12 @@ class Product extends Sabelotodo{
        // } catch (error) {
             console.log(error)
        // }
-      }
+    }
+    async updateStock(newPieces){
+      newPieces = parseFloat(newPieces);
+      this.pieces += newPieces;
+      return await this.update(getOwnProperties(this))
+    }
 }
 
 module.exports = { Product }

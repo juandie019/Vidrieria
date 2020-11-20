@@ -1,5 +1,5 @@
 const { Sabelotodo } = require('./sabelotodo')
-const {getOwnProperties} = require ('./ownProperties')
+const {getOwnProperties, removeProperties} = require ('./ownProperties')
 
 class Employee extends Sabelotodo{
     constructor(employee){
@@ -17,7 +17,8 @@ class Employee extends Sabelotodo{
 
     async save(){
       try {
-          return await this.create(getOwnProperties(this));//GetOwn
+          removeProperties(this);
+          return await this.create(removeProperties(this));//GetOwn
       }catch (error){
           if(error.code === 'ER_DUP_ENTRY')
             throw 'Ya hay un empleado con este id';

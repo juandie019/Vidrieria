@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Home from '../views/sales/NewSale.vue'
 
 Vue.use(VueRouter)
 
@@ -9,6 +9,12 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/sale_index/:canBeEdited?',
+    name: 'saleIndex',
+    props: true,
+    component: () => import('../views/sales/IndexSale.vue')
   },
   {
     path: '/employee_selector/:canBeEdited?',

@@ -1,3 +1,4 @@
+const { Connection } = require("./database");
 
 getOwnProperties = (object) =>{//this cleans inherited properties for corret database insertion
     var newObj = {}
@@ -9,4 +10,17 @@ getOwnProperties = (object) =>{//this cleans inherited properties for corret dat
     return newObj;
 }
 
-module.exports = {getOwnProperties}
+removeProperties = (object, properties=[]) => {
+    var propsToRemove = ['connection', 'table'];
+    var newObj = {}
+    Array.prototype.push.apply(propsToRemove, properties);
+
+    Object.keys(object).forEach(key => {
+        if(!propsToRemove.includes(key)){
+            newObj[key] = object[key]
+        }
+    });
+    return newObj;
+}
+
+module.exports = {getOwnProperties, removeProperties}

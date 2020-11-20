@@ -24,20 +24,30 @@ class Sabelotodo extends Connection{
         }
     }
 
-    async index(){
+    async index(table = this.table){
         try{
-            return await (await this.connection).query(`SELECT * FROM ${this.table}`)
+            return await (await this.connection).query(`SELECT * FROM ${table}`)
         }catch (error) {
             console.log(error)
         }
     }
 
-    async find(id){
+    async find(id, table = this.table){
         try{
-            const result = await (await this.connection).query(`SELECT * FROM ${this.table} WHERE id = ${id}`);
+            const result = await (await this.connection).query(`SELECT * FROM ${table} WHERE id = ${id}`);
             return result[0];
         }catch (error){
             console.log(error);
+        }
+    }
+
+    async create2(table, element){
+        console.log('segundo create')
+        try {
+            return await (await this.connection).query(`INSERT INTO ${table} SET ?`, element);
+        } catch (error) {
+            console.log(error)
+            throw error;
         }
     }
 }

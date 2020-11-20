@@ -8,7 +8,9 @@
 export default {
   name: 'HelloWorld',
   props: {
-    emplyees: Array
+    text:{
+      default:'hola'
+    }
   }
 }
 </script>

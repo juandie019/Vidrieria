@@ -35,7 +35,7 @@
          product.total = product.price * product.quantity;
          this.$emit('productFound', product);
          console.log(product);
-      }
+      },
     }
   }
 </script>

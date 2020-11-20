@@ -10,7 +10,5 @@ const connection = mysql.createConnection({
 function getConnection() {
   return connection;
 }
-function print(){
-    console.log('nada');
-}
-module.exports = { getConnection, print };
+
+module.exports = { getConnection };

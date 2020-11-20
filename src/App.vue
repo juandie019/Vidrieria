@@ -8,6 +8,7 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item to="/">Ventas</b-nav-item>
+          <b-nav-item to="/sale_index">Ver Ventas</b-nav-item>
           <b-nav-item to="/product_index/">Productos</b-nav-item>
           <b-nav-item to="/client_index/">Clientes</b-nav-item>
           <b-nav-item to="/employee_index/">Empleados</b-nav-item>
@@ -20,7 +21,7 @@
           <!-- Using 'button-content' slot -->
           <template #button-content>
             <b-icon icon="person-circle" aria-hidden="flase" class=""></b-icon>
-            {{$root.employee}}
+            {{$root.employee.name}}
           </template>
           <b-dropdown-item href="#">Perfil</b-dropdown-item>
           <b-dropdown-item href="#" @click="showEmployees">Cambiar perfil</b-dropdown-item>
@@ -56,7 +57,7 @@ export default {
   },
   computed:{
     employeeSelected(){
-      return this.$root.employee != ''
+      return this.$root.employee.name != ''
     }
   }
   
