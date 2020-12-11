@@ -2,12 +2,12 @@
   <div>
     <b-card>
       <b-card-header>
-        {{this.title}}
+        Nuevo servicio
       </b-card-header>
     <b-card-body>
      <b-form @submit="onSubmit">
 
-      <b-form-group label="Empleado ID" label-for="id">
+      <b-form-group label="Cliente ID" label-for="id">
         <b-form-input
           id="id"
           v-model="form.id"
@@ -16,46 +16,46 @@
           :disabled = editingStatus></b-form-input>
       </b-form-group>
 
-      <b-form-group label="Nombre del empleado" label-for="name">
+      <b-form-group label="Nombre del cliente" label-for="firstName">
         <b-form-input
-          id="name"
-          v-model="form.name"
+          id="firstName"
+          v-model="form.firstName"
           type="text"
           required
         ></b-form-input>
       </b-form-group>   
       
-      <b-form-group label="NSS" label-for="nss">
+      <b-form-group label="Apellidos" label-for="lastName">
         <b-form-input
-          id="nss"
-          v-model="form.nss"
+          id="lastName"
+          v-model="form.lastName"
           type="text"
           required
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group label="Direccion" label-for="address">
+      <b-form-group label="Apep" label-for="apep">
+        <b-form-input
+          id="apep"
+          v-model="form.apep"
+          type="text"
+          required
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group label="Nombre Comercial" label-for="comercialName">
+        <b-form-input
+          id="comercialName"
+          v-model="form.comercialName"
+          type="text"
+          required
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group label="Direcion" label-for="address">
         <b-form-input
           id="address"
           v-model="form.address"
-          type="text"
-          required
-        ></b-form-input>
-      </b-form-group>
-
-      <b-form-group label="Telefono" label-for="phone">
-        <b-form-input
-          id="phone"
-          v-model="form.phone"
-          type="number"
-          required
-        ></b-form-input>
-      </b-form-group>
-
-      <b-form-group label="Puesto" label-for="position">
-        <b-form-input
-          id="position"
-          v-model="form.position"
           type="text"
           required
         ></b-form-input>
@@ -70,7 +70,17 @@
         ></b-form-input>
       </b-form-group>
 
+      <b-form-group label="Telefono" label-for="phone">
+        <b-form-input
+          id="phone"
+          v-model="form.phone"
+          type="number"
+          required
+        ></b-form-input>
+      </b-form-group>
+
       <b-button type="submit" variant="primary">Guardar</b-button>
+      <b-button variant="danger" v-if="!editingStatus">Limpiar</b-button>
     </b-form>
     </b-card-body>
     </b-card>
@@ -87,11 +97,11 @@ export default {
     }
   },
 
-  props:['employeeId'],
+  props:['clientId'],
 
   async mounted(){
-    if(this.employeeId != undefined){// if it get an id employee it means that we are edting
-      const result = await ipcRenderer.invoke('find', "employees" ,this.employeeId)
+    if(this.clientId != undefined){// if it get an id product it means that we are edting
+      const result = await ipcRenderer.invoke('find', "clients" ,this.clientId)
       this.editingStatus = true;
       this.form = result;
     }
@@ -103,26 +113,29 @@ export default {
       var error;
 
       if(!this.editingStatus)
-        error = ipcRenderer.send('register', 'employee', this.form);
+         error = ipcRenderer.send('register', 'client', this.form);
       else
-        ipcRenderer.send('edit', 'employee', this.form);
+        ipcRenderer.send('edit', 'client', this.form);
 
       if(error != undefined)
         alert(error);
       else
-        this.$router.push({ name: 'employeeIndex', params: { employeeName: this.form.name, employeeEdited:this.editingStatus ? 1 : 0 } }) 
+          this.$router.push({ name: 'clientIndex', params: { clientName: this.clienteNombre, clientEdited:this.editingStatus ? 1 : 0 } }) 
     },
     async onReset(){
-         await ipcRenderer.send('register', 'employee', this.form);
+         await ipcRenderer.send('register', 'client', this.form);
     },
     async productRegister(){
 
     }
   },
   computed: {
-    title: function(){
-     return this.editingStatus ? 'Actualizacion de empleados' : 'Registro de empleados';
+    titulo: function(){
+     return this.editingStatus ? 'Actualizacion de clientes' : 'Registro de clientes';
     },
+    clienteNombre: function(){
+      return this.form.firstName + " " + this.form.lastName;
+    }
   }
 }
 </script>>

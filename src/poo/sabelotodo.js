@@ -41,7 +41,7 @@ class Sabelotodo extends Connection{
         }
     }
 
-    async create2(table, element){
+    async create2(table = this.table, element){
         console.log('segundo create')
         try {
             return await (await this.connection).query(`INSERT INTO ${table} SET ?`, element);

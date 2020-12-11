@@ -17,15 +17,16 @@ const routes = [
     component: () => import('../views/sales/IndexSale.vue')
   },
   {
+    path: '/new_order_sale/:canBeEdited?',
+    name: 'newOrderSale',
+    props: true,
+    component: () => import('../views/sales/NewOrderSale.vue')
+  },
+  {
     path: '/employee_selector/:canBeEdited?',
     name: 'employeeSelector',
     props: true,
     component: () => import('../components/EmployeeSelector.vue')
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: () => import('../views/About.vue')
   },
   
   //product routes

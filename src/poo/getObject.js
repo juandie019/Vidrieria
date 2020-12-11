@@ -22,6 +22,9 @@ getObject = (objectType, object) =>{//this cleans inherited properties for corre
         case 'sale':
             const { Sale } = require('../poo/sale')
             return new Sale(object)
+        case 'order':
+            const { Order } = require('../poo/order')
+            return new Order(object)
         default:
             return 'notFound'
     }

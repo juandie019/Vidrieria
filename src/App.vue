@@ -9,6 +9,7 @@
         <b-navbar-nav>
           <b-nav-item to="/">Ventas</b-nav-item>
           <b-nav-item to="/sale_index">Ver Ventas</b-nav-item>
+          <b-nav-item to="/new_order_sale/">Pedido</b-nav-item>
           <b-nav-item to="/product_index/">Productos</b-nav-item>
           <b-nav-item to="/client_index/">Clientes</b-nav-item>
           <b-nav-item to="/employee_index/">Empleados</b-nav-item>

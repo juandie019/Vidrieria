@@ -80,7 +80,6 @@
       </b-form-group>
 
       <b-button type="submit" variant="primary">Guardar</b-button>
-      <b-button variant="danger" v-if="!editingStatus">Limpiar</b-button>
     </b-form>
     </b-card-body>
     </b-card>
@@ -89,6 +88,7 @@
 
 <script>
 const {ipcRenderer} = window.require('electron')
+
 export default {
   data() {
     return{
